@@ -1,15 +1,14 @@
-
-import { Points} from "./setup.ts";
+import { Points } from './setup.ts';
 
 export const cloneGen = (gen: Points) => {
-    return gen.map((p: any) => ({...p}));
-}
+  return gen.map((p: any) => ({ ...p }));
+};
 export const mutate = (gen: Points, s = 1) => {
-    for (let i = 0; i < gen.length; i++) {
-        const r = Math.random();
-        if (r < 0.1) {
-            const key = Math.random() > 0.5 ? 'x' : 'y';
-            gen[i][key] += (Math.random() * 10 - 5) * s;
-        }
+  for (let i = 0; i < gen.length; i++) {
+    const r = Math.random();
+    if (r < 0.1) {
+      const key = Math.random() > 0.5 ? 'x' : 'y';
+      gen[i][key] += (Math.random() * 10 - 5) * s;
     }
-}
+  }
+};
