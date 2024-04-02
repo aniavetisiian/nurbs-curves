@@ -40,3 +40,21 @@ export const drawNURBSCurve = (ctx: CanvasRenderingContext2D, curve: NURBSCurve)
   }
   drawCurveByPoints(ctx, points as any, 200);
 };
+
+export const drawPolygon = (ctx: CanvasRenderingContext2D, points: number[][], color: string) => {
+  ctx.strokeStyle = color;
+  ctx.beginPath();
+  ctx.moveTo(points[0][0], points[0][1]);
+  for (let i = 1; i < points.length; i++) {
+    ctx.lineTo(points[i][0], points[i][1]);
+  }
+  ctx.stroke();
+}
+
+export const drawPolygonLine = (ctx: CanvasRenderingContext2D, p0: number[], p1: number[], color: string) => {
+  ctx.strokeStyle = color;
+  ctx.beginPath();
+  ctx.moveTo(p0[0], p0[1]);
+  ctx.lineTo(p1[0], p1[1]);
+  ctx.stroke();
+}

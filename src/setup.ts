@@ -1,12 +1,14 @@
 // import curve01 from "/curves/curve_01.png";
 import { nurbsCurve } from './NURBSCurve';
 import { detectDistance, detectPointsOnCanvas } from './detectDistance.ts';
-import { drawCurveByPoints, drawGen, drawNURBSCurve } from './drawFunctions';
+import { drawCurveByPoints, drawGen, drawNURBSCurve , drawPolygon, drawPolygonLine} from './drawFunctions';
 // import { NURBSCurve } from "./NURBSCurve";
 // import { scaleImage } from "./imageUtils.ts";
 import { cloneGen, mutate } from './mutation.ts';
+import {QuadraticBezierCurve} from "./QuadraticBezierCurve.ts";
 import curve02 from '/curves/curve_02.png';
-
+import {CubicBezierCurve} from "./CubicBezierCurve.ts";
+import {Curve, animateCurve} from "./curve.ts";
 // const imageCache: { [key: string]: HTMLImageElement } = {};
 const pixelsOfCurve: { x: number; y: number }[] = [];
 
@@ -29,6 +31,72 @@ let gen: Points = [
   { x: 80, y: 0 },
   { x: 90, y: 100 },
 ];
+
+function animateQuadraticBezier(ctx: CanvasRenderingContext2D, quadraticBezier: QuadraticBezierCurve) {
+  let t = 0;
+  const animationSpeed = 0.01;
+
+  function animate() {
+    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+    const points: number[][] = [];
+    for (let i = 0; i <= t; i += animationSpeed) {
+      const point = quadraticBezier.evaluate(i);
+      points.push(point);
+    }
+
+    drawPolygon(ctx, [quadraticBezier.p0], 'red');
+    drawPolygon(ctx, [quadraticBezier.p1], 'red');
+    drawPolygon(ctx, [quadraticBezier.p2], 'red');
+    drawPolygonLine(ctx, quadraticBezier.p0, quadraticBezier.p1, 'gray');
+    drawPolygonLine(ctx, quadraticBezier.p1, quadraticBezier.p2, 'gray');
+
+    if (points.length > 1) {
+      drawPolygon(ctx, points, 'blue');
+    }
+    t += animationSpeed;
+    if (t <= 1) {
+      requestAnimationFrame(animate);
+    }
+  }
+  animate();
+}
+
+function animateCubicBezier(ctx: CanvasRenderingContext2D, cubicBezier: CubicBezierCurve) {
+  let t = 0;
+  const animationSpeed = 0.01;
+
+  function animate() {
+    ctx.clearRect(0, 0, ctx.canvas.width, ctx.canvas.height);
+    const points: number[][] = [];
+    for (let i = 0; i <= t; i += animationSpeed) {
+      const point = cubicBezier.evaluate(i);
+      points.push(point);
+    }
+
+    // Draw control points
+    drawPolygon(ctx, [cubicBezier.p0], 'red');
+    drawPolygon(ctx, [cubicBezier.p1], 'red');
+    drawPolygon(ctx, [cubicBezier.p2], 'red');
+    drawPolygon(ctx, [cubicBezier.p3], 'red');
+
+    // Draw linear interpolation lines
+    drawPolygonLine(ctx, cubicBezier.p0, cubicBezier.p1, 'gray');
+    drawPolygonLine(ctx, cubicBezier.p1, cubicBezier.p2, 'gray');
+    drawPolygonLine(ctx, cubicBezier.p2, cubicBezier.p3, 'gray');
+
+    if (points.length > 1) {
+      drawPolygon(ctx, points, 'blue');
+    }
+
+    t += animationSpeed;
+    if (t <= 1) {
+      requestAnimationFrame(animate);
+    }
+  }
+
+  animate();
+}
+
 
 const detectBlackPixels = (
   ctx: CanvasRenderingContext2D,
@@ -64,18 +132,21 @@ function loadImageAsCurve(url: string) {
 }
 
 export function setup() {
-  // let counter = 0
-  // const setCounter = (count: number) => {
-  //   counter = count
-  //   element.innerHTML = `count is ${counter}`
-  // }
-  // element.addEventListener('click', () => setCounter(counter + 1))
-  // setCounter(0)
-
   const canvas = document.getElementById('canvas')! as HTMLCanvasElement;
   const ctx = canvas.getContext('2d')!;
   // ctx.imageSmoothingEnabled = false;
 
+  const p0 = [50, 100];
+  const p1 = [100, 50];
+  const p2 = [200, 150];
+  const p3 = [250, 100];
+  const controlPoints = [
+    [50, 100],
+    [100, 50],
+    [200, 150],
+    [250, 100],
+    [300, 50]
+  ];
   const width = (canvas.width = window.innerWidth);
   const height = (canvas.height = window.innerHeight);
   let distancePrev = Number.MAX_SAFE_INTEGER;
@@ -119,6 +190,18 @@ export function setup() {
       gen = mGen;
     }
 
+    //Curve for 3 control points
+    const quadraticBezier = new QuadraticBezierCurve(p0, p1, p3);
+    animateQuadraticBezier(ctx, quadraticBezier);
+
+    //Curve for 4 control points
+    const cubicBezier = new CubicBezierCurve(p0, p1, p2, p3);
+    animateCubicBezier(ctx, cubicBezier);
+
+    //Curve for n control points
+    const curve = new Curve(controlPoints);
+    animateCurve(ctx, curve);
+
     drawCurveByPoints(ctx, pixelsOfCurve, 1);
     drawNURBSCurve(ctx, nurbsCurve);
   };
@@ -126,59 +209,3 @@ export function setup() {
   loadImageAsCurve(curve02);
 }
 
-// const sin = (x: number, k: number, a = 1) => {
-//     return a * Math.sin(x / k) * 100
-// };
-
-// const fn1 = (x: number, t1: number, t2: number, t3: number) => {
-//     return (sin(x + t1, 40, 1.2) + sin(x + t2, 20, 1.4) + sin(x + t3, 30, 1.6) / 3) + height / 4
-// };
-
-// const fn2 = (x: number, t1: number, t2: number, t3: number) => {
-//     return (sin(x + t3, 30, 1.6) / 3) + (height / 4) * 3
-// };
-
-// let t1 = 0;
-// let t2 = 0;
-// let t3 = 0;
-
-// const drawFn = (fn: any) => {
-//     ctx.strokeStyle = 'black'
-//     ctx.beginPath();
-//     let p = {x: -1, y: fn(-1)};
-//     for (let x = 1; x <= width; x++) {
-//         let y = fn(x, t1, t2, t3);
-//         drawLine(p, {x, y});
-//         p = {x, y};
-//     }
-//     // Draw the Path
-//     ctx.stroke();
-// }
-
-// const drawControlLine = () => {
-//     ctx.strokeStyle = 'red';
-//     ctx.beginPath();
-//         drawLine({
-//             x: width/2,
-//             y: 0,
-//         }, {
-//             x: width/2,
-//             y: height,
-//         });
-//
-//     // Draw the Path
-//     ctx.stroke();
-// }
-
-// function getPixelColor(x, y) {
-//     const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-//
-//     const index = (y * imageData.width + x) * 4;
-//
-//     const red = imageData.data[index];
-//     const green = imageData.data[index + 1];
-//     const blue = imageData.data[index + 2];
-//     const alpha = imageData.data[index + 3];
-//
-//     return "rgba(" + red + ", " + green + ", " + blue + ", " + (alpha / 255) + ")";
-// }
