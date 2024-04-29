@@ -11,9 +11,9 @@ export class NURBSCurve {
     this.knots = knots;
   }
 
-  evaluate(u: number): number[] {
-    const span = this.findSpan(u);
-    const basisFunctions = this.computeBasisFunctions(span, u);
+  evaluate(t: number): number[] {
+    const span = this.findSpan(t);
+    const basisFunctions = this.computeBasisFunctions(span, t);
 
     const point = [0, 0, 0];
     // const n = this.degree;
@@ -32,12 +32,12 @@ export class NURBSCurve {
     return point;
   }
 
-  findSpan(u: number): number {
+  findSpan(t: number): number {
     const n = this.controlPoints.length - 1;
     const p = this.degree;
     const m = n + p + 1;
 
-    if (u >= this.knots[m]) {
+    if (t >= this.knots[m]) {
       return n;
     }
 
@@ -45,8 +45,8 @@ export class NURBSCurve {
     let high = m;
     let mid = Math.floor((low + high) / 2);
 
-    while (u < this.knots[mid] || u >= this.knots[mid + 1]) {
-      if (u < this.knots[mid]) {
+    while (t < this.knots[mid] || t >= this.knots[mid + 1]) {
+      if (t < this.knots[mid]) {
         high = mid;
       } else {
         low = mid;
@@ -57,7 +57,7 @@ export class NURBSCurve {
     return mid;
   }
 
-  computeBasisFunctions(span: number, u: number): number[] {
+  computeBasisFunctions(span: number, t: number): number[] {
     const p = this.degree;
 
     const basisFunctions = new Array(p + 1).fill(0);
@@ -67,8 +67,8 @@ export class NURBSCurve {
     basisFunctions[0] = 1.0;
 
     for (let j = 1; j <= p; j++) {
-      left[j] = u - this.knots[span + 1 - j];
-      right[j] = this.knots[span + j] - u;
+      left[j] = t - this.knots[span + 1 - j];
+      right[j] = this.knots[span + j] - t;
       let saved = 0.0;
       for (let r = 0; r < j; r++) {
         const tmp = basisFunctions[r] / (right[r + 1] + left[j - r]);
@@ -84,16 +84,31 @@ export class NURBSCurve {
 
 const degree = 4;
 const controlPoints = [
-  [4, 2, 0],
-  [3, 2, 1],
-  [2, 0, 2],
-  [0, 2, 0],
-  [5, -1, 0],
-  [5, 2, 0],
-  [1, -1, 7],
-  [2, 0, 0],
+  [400, 200, 0],
+  [300, 200, 100],
+  [200, 0, 200],
+  [0, 200, 0],
+  [500, -100, 0],
+  [500, 200, 0],
+  [100, -100, 700],
+  [200, 0, 0],
 ];
 const weights = [1, 1, 1, 1, 1, 1, 1, 1];
 const knots = [0, 0, 0, 0, 0, 1, 2, 3, 4, 5, 6, 7];
+
+const degree2 = 4;
+const controlPoints2 = [
+  [500, 300, 0],
+  [300, 200, 100],
+  [200, -100, 200],
+  [0, 200, 0],
+  [500, -100, 0],
+  [500, 200, 0],
+  [100, -100, 700],
+  [200, 0, 0],
+];
+const knots2 = [0, 0, 0, 0, 0, 1, 2, 3, 4, 5, 6, 7];
+
+export const nurbsCurve2 = new NURBSCurve(degree2, controlPoints2, weights, knots2);
 
 export const nurbsCurve = new NURBSCurve(degree, controlPoints, weights, knots);

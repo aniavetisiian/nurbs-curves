@@ -1,13 +1,36 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Vite + TS</title>
-  </head>
-  <body>
-    <div id="app"></div>
-    <script type="module" src="/src/main.ts"></script>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>NURBS</title>
+</head>
+<body>
+<h1>NURBS CURVE</h1>
+<div class="container">
+  <div id="app"></div>
+  <div class="functionsCaller">
+    <button onclick="showText()">Find intersection point</button>
+    <div id="hiddenText" style="display: none;"></div>
+  </div>
+</div>
+
+<script type="module" src="/src/main.ts">
+  import { closestPoint } from './src/setup.js';
+</script>
+
+<script>
+
+  function showText() {
+    let hiddenText = document.getElementById('hiddenText');
+    const cPnt = window._dd();
+    hiddenText.textContent = `Closest point: x:${cPnt.x} y:${cPnt.y}`;
+    // hiddenText.textContent = `Closest point: ${closestPoint}`;
+    hiddenText.style.display = 'block';
+  }
+</script>
+
+
+</body>
 </html>
