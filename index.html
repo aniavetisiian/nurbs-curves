@@ -16,17 +16,13 @@
   </div>
 </div>
 
-<script type="module" src="/src/main.ts">
-  import { closestPoint } from './src/setup.js';
-</script>
+<script type="module" src="/src/main.ts"></script>
 
 <script>
-
   function showText() {
     let hiddenText = document.getElementById('hiddenText');
     const cPnt = window._dd();
     hiddenText.textContent = `Closest point: x:${cPnt.x} y:${cPnt.y}`;
-    // hiddenText.textContent = `Closest point: ${closestPoint}`;
     hiddenText.style.display = 'block';
   }
 </script>

@@ -1,4 +1,4 @@
-import {nurbsCurve, NURBSCurve} from "./NURBSCurve.ts";
+import {NURBSCurve} from "./NURBSCurve.ts";
 
 export const evaluateNURBSCurve = (curve: NURBSCurve) => {
     const points: { x: number; y: number }[] = [];
