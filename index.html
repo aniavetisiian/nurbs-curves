@@ -7,11 +7,51 @@
   <title>NURBS</title>
 </head>
 <body>
-<h1>NURBS CURVE</h1>
+<h1>NURBS կորեր</h1>
 <div class="container">
   <div id="app"></div>
   <div class="functionsCaller">
-    <button onclick="showText()">Find intersection point</button>
+    <label for="degree">Degree:</label>
+    <input type="number" id="degree" value="2">
+    <br><br>
+    <label for="controlPoints">Control Points:</label>
+    <div id="controlPoints">
+      <div class="controlPoint">
+        <input type="number" class="controlPointX" placeholder="x">
+        <input type="number" class="controlPointY" placeholder="y">
+        <input type="number" class="controlPointZ" placeholder="z">
+      </div>
+      <div class="controlPoint">
+        <input type="number" class="controlPointX" placeholder="x">
+        <input type="number" class="controlPointY" placeholder="y">
+        <input type="number" class="controlPointZ" placeholder="z">
+      </div>
+      <div class="controlPoint">
+        <input type="number" class="controlPointX" placeholder="x">
+        <input type="number" class="controlPointY" placeholder="y">
+        <input type="number" class="controlPointZ" placeholder="z">
+      </div>
+      <div class="controlPoint">
+        <input type="number" class="controlPointX" placeholder="x">
+        <input type="number" class="controlPointY" placeholder="y">
+        <input type="number" class="controlPointZ" placeholder="z">
+      </div>
+    </div>
+    <br>
+    <button class="pntAction" onclick="addControlPoint()">Add Control Point</button>
+    <button class="pntAction" onclick="removeControlPoint()">Remove Control Point</button>
+    <br><br>
+    <label>Knots:</label>
+    <br>
+    <input type="number" id="knots1" placeholder="Knot 1"><br>
+    <input type="number" id="knots2" placeholder="Knot 2"><br>
+    <input type="number" id="knots3" placeholder="Knot 3"><br>
+    <input type="number" id="knots4" placeholder="Knot 4"><br>
+    <input type="number" id="knots5" placeholder="Knot 5"><br>
+    <input type="number" id="knots6" placeholder="Knot 6"><br>
+    <input type="number" id="knots7" placeholder="Knot 7"><br>
+    <br><br>
+    <button class="showText" onclick="showText()">Find intersection point</button>
     <div id="hiddenText" style="display: none;"></div>
   </div>
 </div>
@@ -22,11 +62,44 @@
   function showText() {
     let hiddenText = document.getElementById('hiddenText');
     const cPnt = window._dd();
-    hiddenText.textContent = `Closest point: x:${cPnt.x} y:${cPnt.y}`;
+    hiddenText.textContent = `x:${cPnt.x} y:${cPnt.y}`;
     hiddenText.style.display = 'block';
   }
-</script>
 
+
+  function addControlPoint() {
+    const controlPointsDiv = document.getElementById('controlPoints');
+    const newControlPoint = document.createElement('div');
+    newControlPoint.classList.add('controlPoint');
+    newControlPoint.innerHTML = `
+        <input type="number" class="controlPointX" placeholder="x">
+        <input type="number" class="controlPointY" placeholder="y">
+        <input type="number" class="controlPointZ" placeholder="z">
+    `;
+    controlPointsDiv.appendChild(newControlPoint);
+
+    // const knotsInputs = document.querySelectorAll('input[id^="knots"]');
+    // const newKnot = document.createElement('input');
+    // newKnot.type = 'number';
+    // newKnot.placeholder = `Knot ${knotsInputs.length + 1}`;
+    // newKnot.id = `knot${knotsInputs.length + 1}`;
+    // knotsInputs[knotsInputs.length - 1].after(newKnot);
+  }
+
+  function removeControlPoint() {
+    const controlPointsDiv = document.getElementById('controlPoints');
+    const controlPoints = controlPointsDiv.getElementsByClassName('controlPoint');
+    if (controlPoints.length > 2) { // Ensure at least 4 control points are present
+      controlPointsDiv.removeChild(controlPoints[controlPoints.length - 1]);
+
+      // const knotsInputs = document.querySelectorAll('input[id^="knots"]');
+      // const lastKnot = knotsInputs[knotsInputs.length - 1];
+      // lastKnot.parentNode.removeChild(lastKnot);
+    }
+  }
+
+
+</script>
 
 </body>
 </html>

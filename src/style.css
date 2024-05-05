@@ -4,8 +4,7 @@
   /*font-weight: 400;*/
 
   /*color-scheme: light dark;*/
-  /*color: rgba(255, 255, 255, 0.87);*/
-  /*background-color: #242424;*/
+  background-color: #242424;
 
   /*font-synthesis: none;*/
   /*text-rendering: optimizeLegibility;*/
@@ -55,48 +54,39 @@ h1 {
   /*}*/
 }
 
-* {
-  padding: 10px ;
-  margin: 10px auto;
-}
-
 body {
-  font-family: Arial, sans-serif;
+  /*font-family: Arial, sans-serif;*/
   margin: 0;
   padding: 0;
-  background-color: #f0f0f0;
 }
 
 h1 {
-  color: #333;
+  color: #ff8d00;
   text-align: center;
-}
-
-#app {
-  margin-top: 20px;
+  font-size: 80px;
 }
 
 .container {
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
   align-items: center;
   margin-top: 20px;
+  color: #ffffff;
+
 }
 
+#canvas,
 #app {
-  flex: 0.6;
-  margin-right: 10px;
+  width: 750px;
+  height: 500px;
+  background-color: #ffffff;
 }
 
-.functionsCaller {
-  flex: 0.4;
-}
-
-button {
+.showText {
   height: 40px;
   width: 300px;
   padding: 10px 0;
-  background-color: #3d2664;
+  background-color: #ff8d00;
   color: #fff;
   border: none;
   border-radius: 5px;
@@ -104,10 +94,22 @@ button {
 }
 
 button:hover {
-  background-color: rgba(67, 57, 87, 0.81);
+  background-color: rgba(255, 141, 0, 0.66);
 }
 
 #hiddenText {
   flex: 0.4;
   display: none;
+  color: #ffffff;
+}
+
+.pntAction{
+  height: 20px;
+  width: 150px;
+  padding: 4px 0;
+  background-color: #ff8d00;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 }

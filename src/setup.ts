@@ -95,8 +95,9 @@ export function setup() {
     requestAnimationFrame(drawCanvas);
     ctx.clearRect(0, 0, width, height);
 
-    ctx.fillStyle = '#FFFFFF';
+    ctx.fillStyle = '#ffffff';
     ctx.fillRect(0, 0, width, height);
+
 
     // const mGen = cloneGen(gen);
     // mutate(mGen, fast);
@@ -160,7 +161,7 @@ export function setup() {
     }
 
     const tForCurve2 = findParameterForPoint(nurbsCurve2, approxIntersectionPoint);
-    console.log('t for curve2 = ', tForCurve1);
+    console.log('t for curve2 = ', tForCurve2);
     if (tForCurve2 !== null) {
       const PrevAndNext = findPrevAndNext(tForCurve2);
       console.log(PrevAndNext, 'PrevAndNext of tForCurve2');
