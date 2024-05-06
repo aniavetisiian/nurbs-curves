@@ -6,12 +6,10 @@
 // import { scaleImage } from "./imageUtils.ts";
 // import { cloneGen, mutate } from './mutation.ts';
 // import curve02 from '/curves/curve_02.png';
-import { nurbsCurve, nurbsCurve2 } from './NURBSCurve';
+import { nurbsCurve, nurbsCurve2 } from './NURBSCurve.ts';
 import { detectClosestColorToBlack, detectPointsOnCanvas } from './detectFunctions.ts';
-import { drawNURBSCurve } from './drawFunctions';
-import { findParameterForPoint, findPrevAndNext } from "./evaluateNURBS.ts";
-
-
+import { drawNURBSCurve } from './drawFunctions.ts';
+import { findParameterForPoint, findPrevAndNext } from './evaluateNURBS.ts';
 
 type Point = {
   x: number;
@@ -21,7 +19,6 @@ type Point = {
 // export let closestPoint: any;
 // console.log(closestPoint);
 export type Points = Point[];
-
 
 // const imageCache: { [key: string]: HTMLImageElement } = {};
 // const pixelsOfCurve: { x: number; y: number }[] = [];
@@ -72,24 +69,8 @@ const detectBlackPixels = (ctx: CanvasRenderingContext2D, width: number, height:
 export function setup() {
   const canvas = document.getElementById('canvas')! as HTMLCanvasElement;
   const ctx = canvas.getContext('2d')!;
-  // ctx.imageSmoothingEnabled = false;
-
-  // const p0 = [50, 100];
-  // const p1 = [100, 50];
-  // const p2 = [200, 150];
-  // const p3 = [250, 100];
-  //
-  // const controlPoints = [
-  //   [50, 100],
-  //   [100, 50],
-  //   [200, 150],
-  //   [250, 100],
-  //   [300, 50],
-  // ];
-  const width = (canvas.width = window.innerWidth);
-  const height = (canvas.height = window.innerHeight);
-  // let distancePrev = Number.MAX_SAFE_INTEGER;
-  // let fast = 10;
+  const width = canvas.width;
+  const height = canvas.height;
 
   const drawCanvas = () => {
     requestAnimationFrame(drawCanvas);
@@ -97,7 +78,6 @@ export function setup() {
 
     ctx.fillStyle = '#ffffff';
     ctx.fillRect(0, 0, width, height);
-
 
     // const mGen = cloneGen(gen);
     // mutate(mGen, fast);
@@ -150,7 +130,7 @@ export function setup() {
   // loadImageAsCurve(curve02);
 
   (window as any)._dd = () => {
-    const { intersectionPoints} = detectBlackPixels(ctx, width, height);
+    const { intersectionPoints } = detectBlackPixels(ctx, width, height);
     const approxIntersectionPoint = detectClosestColorToBlack(intersectionPoints);
 
     const tForCurve1 = findParameterForPoint(nurbsCurve, approxIntersectionPoint);

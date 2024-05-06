@@ -35,7 +35,7 @@ export function detectPointsOnCanvas(ctx: CanvasRenderingContext2D, x: number, h
   if (start !== -1) {
     points.push({ x, y: (start + end) / 2 });
   }
- 
+
   return { points, intersectionPoints };
 }
 
@@ -92,6 +92,3 @@ export function detectClosestColorToBlack(intersections: { x: number; y: number;
 
   return closestPoint;
 }
-
-
-

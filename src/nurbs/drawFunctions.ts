@@ -1,6 +1,4 @@
-import { NURBSCurve } from './NURBSCurve';
-import { evaluateNURBSCurve } from './evaluateNURBS.ts';
-import {Point2D} from "./types.ts";
+import { Point2D } from './types.ts';
 
 export const drawLine = (ctx: CanvasRenderingContext2D, point1: any, point2: any) => {
   ctx.moveTo(point1.x, point1.y);
@@ -11,7 +9,7 @@ export const drawPoint = (ctx: CanvasRenderingContext2D, point: Point2D) => {
   // const radius = 20;
   ctx.fillRect(point.x, point.y, 1, 1);
   // ctx.arc(point.x, point.y, radius, 0, 2 * Math.PI);
-  ctx.fillStyle = "blue"
+  ctx.fillStyle = 'blue';
   ctx.fill();
 };
 
@@ -43,14 +41,6 @@ export const drawCurveByPoints = (
 // export const drawGen = (ctx: CanvasRenderingContext2D, gen: any) => {
 //   drawCurveByPoints(ctx, gen, 1);
 // };
-
-export const drawNURBSCurve = (ctx: CanvasRenderingContext2D, curve: NURBSCurve, r = 0, g = 0, b = 0) => {
-  ctx.strokeStyle = `rgba(${r}, ${g}, ${b}, 0.5)`;
-  ctx.lineWidth = 2;
-  ctx.globalAlpha = 0.5;
-  const points = evaluateNURBSCurve(curve);
-  drawCurveByPoints(ctx, points as any, 1);
-};
 
 export const drawPolygon = (ctx: CanvasRenderingContext2D, points: number[][], color: string) => {
   ctx.strokeStyle = color;
