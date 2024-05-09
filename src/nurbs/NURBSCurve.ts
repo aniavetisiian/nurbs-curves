@@ -125,7 +125,6 @@ export class NURBSCurve {
         const [x, y] = this.evaluate(u);
         this.pointsForDrawing.push({ x, y });
       }
-      console.log(this.pointsForDrawing);
     } catch (e) {
       console.log(e);
     }

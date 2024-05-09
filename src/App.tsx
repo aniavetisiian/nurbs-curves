@@ -2,7 +2,7 @@ import { Grid, MantineProvider } from '@mantine/core';
 import '@mantine/core/styles.css';
 
 import { Canvas } from './components/Canvas.tsx';
-import { CurveEditor } from './components/CurveEditor/CurveEditor.tsx';
+import { SideBar } from './components/SideBar/SideBar.tsx';
 
 export default function App() {
   return (
@@ -12,7 +12,7 @@ export default function App() {
           <Canvas />
         </Grid.Col>
         <Grid.Col span={4}>
-          <CurveEditor />
+          <SideBar />
         </Grid.Col>
       </Grid>
     </MantineProvider>

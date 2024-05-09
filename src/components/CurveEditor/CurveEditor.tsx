@@ -1,23 +1,23 @@
-import { Flex, Paper } from '@mantine/core';
+import { Flex } from '@mantine/core';
 import { FC } from 'react';
 
+import { Color } from './Color.tsx';
 import { ControlPoints } from './ControlPoints.tsx';
-import { CurveEditorProvider } from './CurveEditorContext.tsx';
+import { CurveEditorProvider, CurveEditorProviderProps } from './CurveEditorContext.tsx';
 import { Degree } from './Degree.tsx';
 import { DrawActions } from './DrawActions.tsx';
 import { Knots } from './Knots.tsx';
 
-export const CurveEditor: FC = () => {
+export const CurveEditor: FC<CurveEditorProviderProps> = ({ storeKey }) => {
   return (
-    <CurveEditorProvider>
-      <Paper shadow="xs" mih="80vh">
-        <Flex gap="md" p="sm" align="flex-start" justify="flex-start" direction="column">
-          <Degree />
-          <ControlPoints />
-          <Knots />
-          <DrawActions />
-        </Flex>
-      </Paper>
+    <CurveEditorProvider storeKey={storeKey}>
+      <Flex gap="md" p="sm" align="flex-start" justify="flex-start" direction="column">
+        <Color />
+        <Degree />
+        <ControlPoints />
+        <Knots />
+        <DrawActions />
+      </Flex>
     </CurveEditorProvider>
   );
 };

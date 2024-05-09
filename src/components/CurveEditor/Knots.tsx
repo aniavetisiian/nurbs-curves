@@ -1,27 +1,8 @@
 import { Accordion, Checkbox, Flex, NumberInput, Text } from '@mantine/core';
 import { FC, useEffect, useState } from 'react';
 
+import { normalizeArray } from '../../utils.tsx';
 import { useCurveEditorContext } from './CurveEditorContext.tsx';
-import {normalizeArray} from "../../utils.tsx";
-
-
-function generateKnots(degree: number, numControlPoints: number, knotType: 'clamped' | 'unclamped' = 'clamped'): number[] {
-  const numKnots = numControlPoints + degree + 1;
-  const knots: number[] = [];
-
-  for (let i = 0; i < numKnots; i++) {
-    if (i < degree) {
-      knots.push(0);
-    } else if (i >= numControlPoints) {
-      knots.push(1);
-    } else {
-      const t = (i - degree) / (numControlPoints - degree);
-      knots.push(knotType === 'unclamped' ? t : Math.floor(t));
-    }
-  }
-
-  return knots;
-}
 
 export const Knots: FC = () => {
   const [clampedStart, setClampedStart] = useState(true);
@@ -38,10 +19,7 @@ export const Knots: FC = () => {
     }
 
     if (clampedEnd) {
-      newKnots = [
-        ...newKnots.slice(0, knotsCount - degree - 1),
-        ...new Array(degree + 1).fill(1),
-      ];
+      newKnots = [...newKnots.slice(0, knotsCount - degree - 1), ...new Array(degree + 1).fill(1)];
     }
 
     setKnots(newKnots);
@@ -59,7 +37,7 @@ export const Knots: FC = () => {
         <b>Knots:</b> {knotsCount}
       </Flex>
 
-      <Flex gap="xs">
+      <Flex gap="xs" style={{ display: 'none' }}>
         <Checkbox
           size="xs"
           checked={clampedStart}
