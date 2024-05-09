@@ -9,6 +9,7 @@ type Point = {
 export type IntersectionData = {
   width: number;
   height: number;
+  detectedPointsCount: number;
   intersectionPoints: Point[];
   selfIntersections: {
     [name: string]: {

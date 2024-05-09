@@ -118,7 +118,7 @@ export class NURBSCurve {
   }
 
   prepareToDraw(parts: number = 400) {
-    const step = 1 / parts;
+    const step = 1 / Math.max(parts, this.controlPoints.length * this.degree);
 
     try {
       for (let u = 0; u <= 1; u += step) {

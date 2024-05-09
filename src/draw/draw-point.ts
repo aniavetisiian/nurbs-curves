@@ -16,6 +16,16 @@ export const drawXPoint = (x: number, y: number, color: string = '#7D3333') => {
   ctx.stroke();
 };
 
+export const drawOPoint = (x: number, y: number, color: string = '#7D3333') => {
+  const ctx = getCanvasContext();
+
+  // draw a circle
+  ctx.fillStyle = color;
+  ctx.beginPath();
+  ctx.arc(x, y, 5, 0, 2 * Math.PI);
+  ctx.fill();
+};
+
 export const drawControlLinesBetweenPoints = (points: { x: number; y: number }[]) => {
   if (!points.length) {
     return;
