@@ -7,7 +7,7 @@ export const Degree: FC = () => {
   const { degree, setDegree } = useCurveEditorContext();
 
   const onDegreeChange = (value: number | string) => {
-    setDegree(Number(value));
+    setDegree(Math.min(Number(value), 100));
   };
 
   return (
