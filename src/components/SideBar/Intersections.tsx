@@ -5,11 +5,19 @@ import { drawXPoint } from '../../draw/draw-point.ts';
 import { addDrawJob, removeDawJob } from '../../draw/draw-scheduler.ts';
 import { IntersectionData, detectIntersections } from '../../nurbs/intersections.ts';
 
+let clearIntersectionPointsFn: (() => void) | null = null;
+
+export const clearIntersectionPoints = () => {
+  if (clearIntersectionPointsFn) {
+    clearIntersectionPointsFn();
+  }
+};
+
 export const Intersections: FC = () => {
   const [data, setData] = useState<IntersectionData>();
   const [showIntersectionPoints, setShowIntersectionPoints] = useState(true);
   const [showSelfIntersectionPoints, setShowSelfIntersectionPoints] = useState(true);
-  const drawFn = useRef<Function>();
+  const drawFn = useRef<() => void>();
 
   const reDraw = (data: IntersectionData) => {
     if (drawFn.current) {
@@ -31,6 +39,11 @@ export const Intersections: FC = () => {
             drawXPoint(point.x, point.y, colors[i]);
           });
         });
+      }
+    };
+    clearIntersectionPointsFn = () => {
+      if (drawFn.current) {
+        removeDawJob(drawFn.current);
       }
     };
     addDrawJob(drawFn.current);

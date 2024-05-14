@@ -6,6 +6,7 @@ import { drawControlPoints, drawOPoint } from '../../draw/draw-point.ts';
 import { addDrawJob, removeDawJob } from '../../draw/draw-scheduler.ts';
 import { NURBSCurve } from '../../nurbs/NURBSCurve.ts';
 import { setCurve } from '../../nurbs/intersections.ts';
+import { clearIntersectionPoints } from '../SideBar/Intersections.tsx';
 
 interface Point {
   x: number;
@@ -53,12 +54,13 @@ export const CurveEditorProvider: FC<PropsWithChildren & CurveEditorProviderProp
   const [evaluation, setEvaluation] = useState(0.5);
 
   const curve = useRef<NURBSCurve>();
-  const drawFn = useRef<Function>();
-  const drawEvFn = useRef<Function>();
+  const drawFn = useRef<() => void>();
+  const drawEvFn = useRef<() => void>();
 
   const reDrawCurve = () => {
     if (drawFn.current) {
       removeDawJob(drawFn.current);
+      clearIntersectionPoints();
     }
     curve.current = new NURBSCurve(
       degree,

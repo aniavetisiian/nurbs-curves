@@ -1,12 +1,12 @@
 import { getCanvas } from './canvas-context.ts';
 
-const jobs: Function[] = [];
+const jobs: (() => void)[] = [];
 
-export function addDrawJob(job: Function) {
+export function addDrawJob(job: () => void) {
   jobs.push(job);
 }
 
-export function removeDawJob(job: Function) {
+export function removeDawJob(job: () => void) {
   const index = jobs.indexOf(job);
   if (index !== -1) {
     jobs.splice(index, 1);
