@@ -28,7 +28,7 @@ export const ControlPoint: FC<PointRowProps> = ({
   return (
     <Flex gap="xs" align="center">
       <Text miw={50} size="xs">
-        Point {index + 1}
+        Կետ {index + 1}
       </Text>
       <NumberInput maw={80} size="xs" leftSection="x" value={x} onChange={onXChange} />
       <NumberInput maw={80} size="xs" leftSection="y" value={y} onChange={onYChange} />

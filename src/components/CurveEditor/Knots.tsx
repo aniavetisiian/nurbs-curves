@@ -34,7 +34,7 @@ export const Knots: FC = () => {
   return (
     <Flex gap="xs" align="flex-start" direction="column">
       <Flex gap="xs">
-        <b>Knots:</b> {knotsCount}
+        <b>Knot-ներ:</b> {knotsCount}
       </Flex>
 
       <Flex gap="xs" style={{ display: 'none' }}>
@@ -54,7 +54,7 @@ export const Knots: FC = () => {
 
       <Accordion w={250} variant="filled" chevronPosition="left">
         <Accordion.Item key="Knots" value="Knots">
-          <Accordion.Control>Knots</Accordion.Control>
+          <Accordion.Control>Knot-ներ</Accordion.Control>
           <Accordion.Panel>
             <Flex gap="xs" align="flex-start" direction="column">
               {knots.map((knot, index) => (

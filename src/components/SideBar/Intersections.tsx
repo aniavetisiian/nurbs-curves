@@ -69,10 +69,10 @@ export const Intersections: FC = () => {
     <Flex gap="xs" mt="md" direction="column">
       <Flex gap="xs" align="center" direction="row">
         <Button size="xs" color="blue" variant="outline" onClick={handleDetectIntersections}>
-          Detect intersections
+          Գտնել հատումները
         </Button>
         <Button size="xs" color="gray" variant="outline" onClick={handleClearIntersectionPoints}>
-          Clear points
+          Մաքրել կետերը
         </Button>
       </Flex>
 
@@ -81,19 +81,19 @@ export const Intersections: FC = () => {
           size="xs"
           checked={showIntersectionPoints}
           onChange={(event) => setShowIntersectionPoints(event.currentTarget.checked)}
-          label="Show intersection points"
+          label="Ցույց տալ հատման կետերը"
         />
         <Checkbox
           size="xs"
           checked={showSelfIntersectionPoints}
           onChange={(event) => setShowSelfIntersectionPoints(event.currentTarget.checked)}
-          label="Show self intersection points"
+          label="Ցույց տալ ինքնահատման կետերը"
         />
       </Flex>
       {!!data && (
         <Flex gap="xs" direction="column">
           <Flex gap="xs" align="center" direction="row">
-            <b>Time spent:</b>
+            <b>Ժամանակահատվածը:</b>
             <span>
               {(
                 data.times.intersectionsDetectionTime +
@@ -107,11 +107,11 @@ export const Intersections: FC = () => {
             </span>
           </Flex>
           <Flex gap="xs" align="center" direction="row">
-            <small>intersections detections:</small>
+            <small>հատումների ստացումը:</small>
             <small>{data.times.intersectionsDetectionTime.toFixed(2)} ms</small>
           </Flex>
           <Flex gap="xs" align="center" direction="row">
-            <small>self intersections detections:</small>
+            <small>ինքնահատումների ստացումը:</small>
             <small>
               {Object.values(data.selfIntersections)
                 .reduce((acc, item) => acc + item.selfIntersectionsDetectionTime, 0)
@@ -120,7 +120,7 @@ export const Intersections: FC = () => {
             </small>
           </Flex>
           <Flex gap="xs" align="center" direction="row">
-            <small>drawing:</small>
+            <small>Պատկերումը:</small>
             <small>
               {(
                 data.times.drawAllCurveTime +
@@ -135,25 +135,25 @@ export const Intersections: FC = () => {
         </Flex>
       )}
       {!!data && (
-        <Flex gap="xs" align="center" direction="row">
-          <b>Intersections points:</b>
-          <small>
-            {data.intersectionPoints.length} / {data.detectedPointsCount}
-          </small>
-        </Flex>
+          <Flex gap="xs" align="center" direction="row">
+            <b>Հատման կետեր:</b>
+            <small>
+              {data.intersectionPoints.length} / {data.detectedPointsCount}
+            </small>
+          </Flex>
       )}
       {!!data &&
-        Object.entries(data.selfIntersections).map(([name, selfIntersection]) => (
-          <Flex key={name} gap="xs" align="center" direction="row">
+          Object.entries(data.selfIntersections).map(([name, selfIntersection]) => (
+              <Flex key={name} gap="xs" align="center" direction="row">
             <small>
-              <b>Self intersections points [{name}]:</b>
+              <b>Ինքնահատման կետեր [{name}]:</b>
             </small>
             <small>
               {selfIntersection.intersectionPoints.length} / {selfIntersection.detectedPointsCount}
             </small>
           </Flex>
         ))}
-      <pre>{JSON.stringify(data, null, 2)}</pre>
+      {/*<pre>{JSON.stringify(data, null, 2)}</pre>*/}
     </Flex>
   );
 };

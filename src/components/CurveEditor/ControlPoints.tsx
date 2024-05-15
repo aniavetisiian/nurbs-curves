@@ -59,7 +59,7 @@ export const ControlPoints: FC = () => {
   return (
     <Flex gap="xs" align="flex-start" direction="column">
       <Flex gap="xs">
-        <b>Control Points:</b> x, y, w
+        <b>Կառավարող կետեր:</b> x, y, w
         <ActionIcon variant="subtle" aria-label="Add control point" onClick={addPoint}>
           <IconSquarePlus style={{ width: '70%', height: '70%' }} stroke={1.5} />
         </ActionIcon>

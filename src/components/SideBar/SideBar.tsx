@@ -9,9 +9,9 @@ export const SideBar: FC = () => {
     <Paper p="xs" shadow="xs" mih="80vh">
       <Tabs variant="pills" defaultValue="curve1">
         <Tabs.List>
-          <Tabs.Tab value="curve1">Curve 1</Tabs.Tab>
-          <Tabs.Tab value="curve2">Curve 2</Tabs.Tab>
-          <Tabs.Tab value="intersections">Intersections</Tabs.Tab>
+          <Tabs.Tab value="curve1">Կոր 1</Tabs.Tab>
+          <Tabs.Tab value="curve2">Կոր 2</Tabs.Tab>
+          <Tabs.Tab value="intersections">Հատումներ</Tabs.Tab>
         </Tabs.List>
 
         <Tabs.Panel value="curve1">

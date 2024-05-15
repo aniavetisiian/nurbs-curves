@@ -8,7 +8,7 @@ export const Color: FC = () => {
 
   return (
     <Flex gap="xs" align="center" direction="row">
-      <b>Color:</b>
+      <b>Գույն:</b>
       <ColorInput
         size="xs"
         w={120}
@@ -30,7 +30,7 @@ export const Color: FC = () => {
         size="xs"
         checked={showControlPoints}
         onChange={(event) => setShowControlPoints(event.currentTarget.checked)}
-        label="Show control points"
+        label="Ցույց տալ կառավարող կետերը"
       />
     </Flex>
   );

@@ -12,7 +12,7 @@ export const Degree: FC = () => {
 
   return (
     <Flex gap="xs" align="center" direction="row">
-      <b>Degree:</b>
+      <b>Աստիճան:</b>
       <NumberInput maw={80} size="xs" leftSection="d" value={degree} onChange={onDegreeChange} min={1} max={10} />
     </Flex>
   );

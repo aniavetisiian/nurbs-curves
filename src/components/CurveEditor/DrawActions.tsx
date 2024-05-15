@@ -10,12 +10,12 @@ export const DrawActions: FC = () => {
     <Flex gap="xs" align="center" direction="row">
       <Box>
         <Flex gap="xs" align="center" direction="row">
-          <small>Evaluate</small>
+          <small>Արտահայտել</small>
           <Checkbox
             size="xs"
             checked={showEvaluationPoint}
             onChange={(event) => setShowEvaluationPoint(event.currentTarget.checked)}
-            label="Show"
+            label="Ցույց տալ"
           />
         </Flex>
         <Flex gap="xs" align="center" direction="row">
