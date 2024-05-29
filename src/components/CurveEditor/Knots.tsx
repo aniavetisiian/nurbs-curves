@@ -1,29 +1,14 @@
 import { Accordion, Checkbox, Flex, NumberInput, Text } from '@mantine/core';
-import { FC, useEffect, useState } from 'react';
+import { FC } from 'react';
 
-import { normalizeArray } from '../../utils.tsx';
 import { useCurveEditorContext } from './CurveEditorContext.tsx';
 
+
 export const Knots: FC = () => {
-  const [clampedStart, setClampedStart] = useState(true);
-  const [clampedEnd, setClampedEnd] = useState(true);
-  const { degree, controlPoints, knots, setKnots } = useCurveEditorContext();
+  const { degree, controlPoints, knots, setKnots, clampedStart, clampedEnd, setClampedStart, setClampedEnd } =
+    useCurveEditorContext();
 
   const knotsCount = controlPoints.length + degree + 1;
-
-  useEffect(() => {
-    let newKnots = normalizeArray(Array.from({ length: knotsCount }, (_, i) => i));
-
-    if (clampedStart) {
-      newKnots = [...new Array(degree + 1).fill(0), ...newKnots.slice(degree + 1)];
-    }
-
-    if (clampedEnd) {
-      newKnots = [...newKnots.slice(0, knotsCount - degree - 1), ...new Array(degree + 1).fill(1)];
-    }
-
-    setKnots(newKnots);
-  }, [knotsCount, degree, clampedStart, clampedEnd]);
 
   const handleKnotChange = (index: number, value: number) => {
     const newKnots = [...knots];

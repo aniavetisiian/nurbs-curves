@@ -3,7 +3,7 @@ import { IconSquarePlus } from '@tabler/icons-react';
 import { FC, useEffect } from 'react';
 
 import { getCanvasDimensions } from '../../draw/canvas-context.ts';
-import { randomInt } from '../../utils.tsx';
+import { randomInt } from '../../utils.ts';
 import { ControlPoint } from './ControlPoint.tsx';
 import { useCurveEditorContext } from './CurveEditorContext.tsx';
 

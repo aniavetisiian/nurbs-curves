@@ -5,13 +5,23 @@ import { drawCurve } from '../../draw/draw-curve.ts';
 import { drawControlPoints, drawOPoint } from '../../draw/draw-point.ts';
 import { addDrawJob, removeDawJob } from '../../draw/draw-scheduler.ts';
 import { NURBSCurve } from '../../nurbs/NURBSCurve.ts';
+import curveExamples from '../../nurbs/curve-examples.ts';
 import { setCurve } from '../../nurbs/intersections.ts';
+import { normalizeArray } from '../../utils.ts';
 import { clearIntersectionPoints } from '../SideBar/Intersections.tsx';
+
 
 interface Point {
   x: number;
   y: number;
   w: number;
+}
+
+interface Example {
+  name: string;
+  degree: number;
+  controlPoints: Point[];
+  knots: number[];
 }
 
 interface CurveEditorContextProps {
@@ -29,6 +39,12 @@ interface CurveEditorContextProps {
   setShowEvaluationPoint: (showEvaluationPoint: boolean) => void;
   evaluation: number;
   setEvaluation: (evaluation: number) => void;
+  examples: Example[];
+  loadExample: (example: Example) => void;
+  clampedStart: boolean;
+  clampedEnd: boolean;
+  setClampedStart: (clampedStart: boolean) => void;
+  setClampedEnd: (clampedEnd: boolean) => void;
 }
 
 export const CurveEditorContext = createContext<CurveEditorContextProps | undefined>(undefined);
@@ -38,6 +54,7 @@ export type CurveEditorProviderProps = {
 };
 
 export const CurveEditorProvider: FC<PropsWithChildren & CurveEditorProviderProps> = ({ children, storeKey }) => {
+  const examples = (curveExamples as any)[storeKey];
   const data = store.get(storeKey, {
     color: '#FFD000',
     showControlPoints: false,
@@ -52,21 +69,43 @@ export const CurveEditorProvider: FC<PropsWithChildren & CurveEditorProviderProp
   const [knots, setKnots] = useState<number[]>(data?.knots || []);
   const [showEvaluationPoint, setShowEvaluationPoint] = useState(false);
   const [evaluation, setEvaluation] = useState(0.5);
+  const [clampedStart, setClampedStart] = useState(true);
+  const [clampedEnd, setClampedEnd] = useState(true);
 
   const curve = useRef<NURBSCurve>();
   const drawFn = useRef<() => void>();
   const drawEvFn = useRef<() => void>();
+  const loadExample = (example: Example) => {
+    setDegree(example.degree);
+    setControlPoints(example.controlPoints);
+    setKnots(example.knots);
+  };
+  const knotsCount = controlPoints.length + degree + 1;
+
+  const generateKnots = () => {
+    let newKnots = normalizeArray(Array.from({ length: knotsCount }, (_, i) => i));
+
+    if (clampedStart) {
+      newKnots = [...new Array(degree + 1).fill(0), ...newKnots.slice(degree + 1)];
+    }
+
+    if (clampedEnd) {
+      newKnots = [...newKnots.slice(0, knotsCount - degree - 1), ...new Array(degree + 1).fill(1)];
+    }
+    return newKnots;
+  };
 
   const reDrawCurve = () => {
     if (drawFn.current) {
       removeDawJob(drawFn.current);
       clearIntersectionPoints();
     }
+
     curve.current = new NURBSCurve(
       degree,
       controlPoints.map(({ x, y }) => [x, y, 0]),
       controlPoints.map(({ w }) => w),
-      knots,
+      degree + controlPoints.length + 1 !== knots.length ? generateKnots() : knots,
     );
     curve.current.prepareToDraw();
     setCurve(storeKey, curve.current);
@@ -99,6 +138,17 @@ export const CurveEditorProvider: FC<PropsWithChildren & CurveEditorProviderProp
   };
 
   useEffect(() => {
+    const newKnots = generateKnots();
+
+    setKnots((knots) => {
+      if (knots.length === newKnots.length) {
+        return knots;
+      }
+      return newKnots;
+    });
+  }, [knotsCount, degree, clampedStart, clampedEnd]);
+
+  useEffect(() => {
     reDrawCurve();
     store.set(storeKey, { color, showControlPoints, degree, controlPoints, knots });
   }, [color, showControlPoints, degree, controlPoints, knots]);
@@ -124,6 +174,12 @@ export const CurveEditorProvider: FC<PropsWithChildren & CurveEditorProviderProp
         setShowEvaluationPoint,
         evaluation,
         setEvaluation,
+        examples,
+        loadExample,
+        clampedStart,
+        clampedEnd,
+        setClampedStart,
+        setClampedEnd,
       }}
     >
       {children}

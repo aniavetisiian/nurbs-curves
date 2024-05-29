@@ -1,3 +1,5 @@
+import { normalizeArray } from '../utils.ts';
+
 export class NURBSCurve {
   degree: number;
   controlPoints: number[][];
@@ -10,30 +12,9 @@ export class NURBSCurve {
     this.degree = degree;
     this.controlPoints = controlPoints;
     this.weights = weights;
-    this.knots = knots;
+    this.knots = normalizeArray(knots);
   }
 
-  isValid() {
-    const n = this.controlPoints.length;
-    const m = this.weights.length;
-    const p = this.degree;
-    const knotsLength = this.knots.length;
-
-    // if (this.degree < 1) {
-    //   throw new Error('The degree of the curve must be at least 1.');
-    // }
-    // if (this.controlPoints.length < this.degree + 1) {
-    //   throw new Error('There must be at least degree + 1 control points.');
-    // }
-    // if (this.weights.length !== this.controlPoints.length) {
-    //   throw new Error('There must be a corresponding weight for each control point.');
-    // }
-    // if (this.knots.length !== this.controlPoints.length + degree + 1) {
-    //   throw new Error('The number of knots must be equal to the number of control points plus the degree plus one.');
-    // }
-
-    return n === m && n === p + 1 && knotsLength === n + p + 1;
-  }
   private findSpan(u: number): number {
     const n = this.controlPoints.length - 1;
     const p = this.degree;
